@@ -2104,18 +2104,19 @@ $(document).ready(function () {
 
 $(document).ready(function () {
     $('.home-album__content').slick({
-        prevArrow: '<i class="fa fa-2x fa-chevron-left prev-arrow" aria-hidden="true"></i>',
-        nextArrow: '<i class="fa fa-2x fa-chevron-right next-arrow" aria-hidden="true"></i>',
-        centerMode: true,
-        centerPadding: '180px',
-        slidesToShow: 1,
+        slidesToShow: 3,
+        slidesToScroll: 1,
+        autoplaySpeed: 5000,
+        autoplay: true,
+        speed: 1000,
+        arrows: false,
         responsive: [
             {
                 breakpoint: 990,
                 settings: {
-                    arrows: false,
-                    centerMode: false,
-                    slidesToShow: 1
+                    centerMode: true,
+                    centerPadding: '40px',
+                    slidesToShow: 1,
                 }
             }
         ]
@@ -2151,12 +2152,13 @@ $(document).ready(function () {
         posTop = $nav.position().top;
     $(window).scroll(function () {
         var y = $(this).scrollTop();
-        if (y > posTop) { 
+        if (y > posTop) {
             $nav.addClass('menu-float');
             $('#social-header').addClass('social-header-float');
             $('#logo-scroll').addClass('logo-on-scroll');
         }
-        else { $nav.removeClass('menu-float');
+        else {
+            $nav.removeClass('menu-float');
             $('#social-header').removeClass('social-header-float');
             $('#logo-scroll').removeClass('logo-on-scroll');
         }
