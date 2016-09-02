@@ -2145,7 +2145,6 @@ $(document).ready(function () {
         infinite: true,
         fade: true,
         cssEase: 'linear',
-        adaptiveHeight: true
     });
 
     var $nav = $('.menu'),
