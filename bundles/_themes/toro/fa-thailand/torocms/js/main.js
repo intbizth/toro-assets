@@ -1,1 +1,3 @@
-../../../../../../../src/Toro/Bundle/CmsBundle/Resources/public/js/main.js
+$( document ).ready(function() {
+    $('#carousel-example-generic').carousel({wrap: true});
+});
