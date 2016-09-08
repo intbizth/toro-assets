@@ -5367,6 +5367,9 @@ img {
   max-width: 100%;
   height: auto; }
 
+body {
+  word-wrap: break-word; }
+
 .navigator {
   padding: 0; }
   .navigator__top {

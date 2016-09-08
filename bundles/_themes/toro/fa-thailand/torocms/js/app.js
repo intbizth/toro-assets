@@ -2121,6 +2121,12 @@ $(document).ready(function () {
             }
         ]
     });
+
+    $('.featured-pinned').slick({
+        autoplay: true,
+        arrows: false
+    });
+
 });
 
 $(document).ready(function () {
