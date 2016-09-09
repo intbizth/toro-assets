@@ -2141,6 +2141,7 @@ $(document).ready(function () {
     });
 
     $('.ads-slider').slick();
+    $('.live__slider').slick();
 
 });
 
@@ -2159,7 +2160,6 @@ $(document).ready(function () {
     //----- Menu system -------//
     //Toggle mobile menu & search
     $('.toggle-nav').click(function() {
-        console.log('toggle nav');
         $('.mobile-nav').slideToggle(200);
         $('.mobile-nav').toggleClass('header-nav-opened');
         $('.mobile-search').slideUp(200);
@@ -2167,7 +2167,6 @@ $(document).ready(function () {
     //Close navigation on anchor tap
 
     $('.toggle-search').click(function() {
-        console.log('toggle search');
         $('.mobile-search').slideToggle(200);
         $('.mobile-nav').slideUp(200);
     });
@@ -2189,12 +2188,9 @@ $(document).ready(function () {
     var $headerNav = $('.header-nav-top');
 
     if ($nav.length) {
-        var $blueBar = $('.header-nav-top');
-
         //posTop = $nav.position().top;
         posTop = 80;
         $(window).scroll(function () {
-            console.log(posTop);
             var y = $(this).scrollTop();
 
             if (y > posTop) {
@@ -2214,4 +2210,5 @@ $(document).ready(function () {
         });
     }
     //----- end Menu System ------//
+
 });

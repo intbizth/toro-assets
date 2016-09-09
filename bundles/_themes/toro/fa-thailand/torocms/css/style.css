@@ -5940,24 +5940,39 @@ body {
 .live {
   font-style: italic;
   font-weight: 400;
-  background: #18202D; }
+  /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#18202d+50,f7c026+50 */
+  background: #18202D;
+  /* Old browsers */
+  background: -moz-linear-gradient(left, #18202D 50%, #F7C026 50%);
+  /* FF3.6-15 */
+  background: -webkit-linear-gradient(left, #18202D 50%, #F7C026 50%);
+  /* Chrome10-25,Safari5.1-6 */
+  background: linear-gradient(to right, #18202D 50%, #F7C026 50%);
+  /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr=$color-base-dark, endColorstr=$color-second,GradientType=1 );
+  /* IE6-9 */ }
   .live__left {
     padding: 10px 20px;
-    float: left;
     width: 20%;
+    display: inline-block;
     background: #18202D;
     color: #ffffff;
     text-align: right; }
   .live__right {
-    padding: 10px 20px;
-    width: 100%;
+    width: 80%;
+    display: inline-block;
     background: #F7C026;
+    font-size: 1.3em;
     color: #18202D; }
     .live__right--team {
       padding: 0 10px;
       display: inline-block; }
       .live__right--team:first-child {
         border-right: #ffffff 2px solid; }
+  .live__slider {
+    height: 30px;
+    margin: 7px;
+    overflow: hidden; }
 
 .home-events {
   border-bottom: #E5E5E5 1px solid;
@@ -6475,6 +6490,8 @@ i.icon-text {
 
 .club-name {
   margin-top: 0.5em; }
+  .club-name a {
+    color: white; }
 
 .match-score {
   background: -webkit-linear-gradient(bottom, transparent, rgba(0, 0, 0, 0.8));
@@ -6503,7 +6520,8 @@ i.icon-text {
   .score-board .score-holder {
     background: #133960;
     width: 100%;
-    display: table; }
+    display: table;
+    padding: 0 5px; }
     .score-board .score-holder .home-score, .score-board .score-holder .away-score {
       font-size: 2.5em; }
     .score-board .score-holder .home-score {
@@ -7507,8 +7525,8 @@ i.icon-text {
   .personal-overview-wrapper {
     background: #d1d3d4; }
   .personal__stats {
-    border-top: 1px solid #918f90;
     border-bottom: 1px solid #918f90;
+    border-top: none;
     padding: 10px 30px;
     float: left;
     width: 95%; }
@@ -7533,7 +7551,7 @@ i.icon-text {
   .toggle-heading {
     background: #f1f1f1; }
     .toggle-heading a {
-      padding: 20px;
+      padding: 15px 20px;
       display: inline-block;
       width: 100%; }
       .toggle-heading a i {
@@ -7660,6 +7678,10 @@ i.icon-text {
   .toro-second_yellow-timeline i {
     top: 4px;
     left: 10px; }
+  .score-board .score-holder .home-score, .score-board .score-holder .away-score {
+    font-size: 1.5em; }
+  .score-board .score-holder .timer {
+    font-size: inherit; }
   #match-show-tabs {
     padding: 5px 0px; }
     #match-show-tabs li:not(:first-child):not(.active)::before {
@@ -7879,14 +7901,163 @@ i.icon-text {
     display: block;
     width: 100%;
     min-height: .01%;
-    overflow-x: auto; } }
+    overflow-x: auto; }
+  .personal-overview-wrapper {
+    background: #d1d3d4; }
+  .personal__stats {
+    border-bottom: 1px solid #918f90;
+    border-top: none;
+    padding: 10px 30px;
+    float: left;
+    width: 95%; }
+    .personal__stats--small {
+      padding: 0px 15px; }
+    .personal__stats--half {
+      float: left;
+      width: 50%;
+      padding: 10px 15px;
+      border-right: 1px solid #918f90; }
+      .personal__stats--half:last-child {
+        border-right: none;
+        padding-right: 0; }
+      .personal__stats--half:first-child {
+        padding-left: 0; }
+    .personal__stats--label {
+      color: #3a5070; }
+    .personal__stats--number {
+      color: #133960;
+      font-size: 1.5em;
+      font-weight: bold; }
+  .toggle-heading {
+    background: #f1f1f1; }
+    .toggle-heading a {
+      padding: 20px;
+      display: inline-block;
+      width: 100%; }
+      .toggle-heading a i {
+        float: right; }
+      .toggle-heading a .fa-angle-down {
+        display: none; }
+      .toggle-heading a.collapsed .fa-angle-up {
+        display: none; }
+      .toggle-heading a.collapsed .fa-angle-down {
+        display: block; }
+  .panel-default {
+    margin-bottom: 15px; }
+    .panel-default .nav {
+      margin-bottom: 10px; }
+      .panel-default .nav .nav-link {
+        color: #82b7d8;
+        padding: 0.3em 0.7em; }
+        .panel-default .nav .nav-link.active {
+          color: #133960;
+          background-color: #82b7d8;
+          border-radius: 0.5rem; }
+  .personal-overview {
+    padding: 10px 0;
+    display: inline-flex;
+    width: 100%;
+    flex-wrap: wrap; }
+    .personal-overview__shirt-number {
+      padding: 0 15px; }
+      .personal-overview__shirt-number--number {
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        border: 3px solid #133960;
+        display: block;
+        text-align: center;
+        font-size: 16px;
+        color: #133960;
+        float: left;
+        margin-top: -2px;
+        margin-left: 14px; }
+    .personal-overview__info {
+      float: left;
+      width: 100%; }
+      .personal-overview__info--position {
+        font-weight: bold;
+        float: left; }
+      .personal-overview__info--club {
+        float: left; }
+      .personal-overview__info--position {
+        margin-left: 10px;
+        font-weight: 400;
+        float: left; }
+      .personal-overview__info--firstname {
+        margin-top: 4px;
+        font-size: 28px;
+        font-weight: bold;
+        color: #18202d; }
+      .personal-overview__info--lastname {
+        margin-top: -14px;
+        font-size: 28px;
+        font-weight: bold;
+        color: #18202d; }
+      .personal-overview__info--info {
+        color: #3a5070;
+        margin-right: 15px; }
+        .personal-overview__info--info:last-child {
+          margin-right: 0px; }
+        .personal-overview__info--info span {
+          font-weight: bold;
+          margin-right: 5px;
+          color: black; }
+        .personal-overview__info--info a img {
+          margin: 0 5px; }
+      .personal-overview__info--bottom {
+        margin-top: 20px; }
+  .personal-info-wrapper {
+    min-width: 290px;
+    flex: 1; }
+  .personal-stats {
+    margin: 20px auto; }
+    .personal-stats__row {
+      margin: 15px 0px; }
+  .heading--with-border {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px; }
+    .heading--with-border:after {
+      content: "";
+      flex: 1;
+      border-bottom: 1px solid #cccccc;
+      margin-left: 1em; }
+  .reduce-padding {
+    padding-left: 5px;
+    padding-right: 5px; }
+  .nodata {
+    margin-left: 15px; } }
+
+@media screen and (min-width: 544px) and (max-width: 767px) and (max-width: 320px) {
+  .personal-overview__info--firstname {
+    margin-top: 15px;
+    font-size: 20px; }
+  .personal-overview__info--lastname {
+    margin-top: -5px;
+    font-size: 20px; }
+  .personal-overview__shirt-number {
+    padding: 0 15px; }
+    .personal-overview__shirt-number--number {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      border: 3px solid #133960;
+      display: block;
+      text-align: center;
+      font-size: 16px;
+      color: #133960; } }
 
 @media (min-width: 768px) and (max-width: 991px) {
   .sponsor img {
     max-width: 110px; }
   .featured__desc {
     margin: 0;
-    margin-bottom: 1rem; } }
+    margin-bottom: 1rem; }
+  .personal__stats--small {
+    padding: 0px 5px; }
+  .personal__stats--half {
+    padding: 10px 10px; } }
 
 @media (min-width: 992px) and (max-width: 1199px) {
   .featured--flex {
