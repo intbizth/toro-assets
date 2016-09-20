@@ -314,8 +314,6 @@ tinymce.PluginManager.add('lists', function(editor) {
 						if (isEmpty(parentNode)) {
 							dom.remove(parentNode);
 						}
-					} else {
-						dom.setStyle(parentNode, 'listStyleType', 'none');
 					}
 				}
 
@@ -615,9 +613,6 @@ tinymce.PluginManager.add('lists', function(editor) {
 				var hasCompatibleStyle = function (sib) {
 					var sibStyle = dom.getStyle(sib, 'list-style-type');
 					var detailStyle = detail ? detail['list-style-type'] : '';
-
-					detailStyle = detailStyle === null ? '' : detailStyle;
-
 					return sibStyle === detailStyle;
 				};
 
@@ -666,7 +661,6 @@ tinymce.PluginManager.add('lists', function(editor) {
 				}
 
 				splitList(rootList, li);
-				normalizeList(rootList.parentNode);
 			});
 
 			moveToBookmark(bookmark);

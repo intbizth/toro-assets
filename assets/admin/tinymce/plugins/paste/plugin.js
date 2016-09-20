@@ -264,16 +264,16 @@ define("tinymce/pasteplugin/SmartPaste", [
 	"tinymce/util/Tools"
 ], function (Tools) {
 	var isAbsoluteUrl = function (url) {
-		return /^https?:\/\/[\w\?\-\/+=.&%@~#]+$/i.test(url);
+		return /^https?:\/\/[\w\?\-\/+=.&%]+$/i.test(url);
 	};
 
 	var isImageUrl = function (url) {
-		return isAbsoluteUrl(url) && /.(gif|jpe?g|png)$/.test(url);
+		return isAbsoluteUrl(url) && /.(gif|jpe?g|jpng)$/.test(url);
 	};
 
 	var createImage = function (editor, url, pasteHtml) {
 		editor.undoManager.extra(function () {
-			pasteHtml(editor, url);
+			pasteHtml(url);
 		}, function () {
 			editor.insertContent('<img src="' + url + '">');
 		});
@@ -283,7 +283,7 @@ define("tinymce/pasteplugin/SmartPaste", [
 
 	var createLink = function (editor, url, pasteHtml) {
 		editor.undoManager.extra(function () {
-			pasteHtml(editor, url);
+			pasteHtml(url);
 		}, function () {
 			editor.execCommand('mceInsertLink', false, url);
 		});
@@ -299,31 +299,27 @@ define("tinymce/pasteplugin/SmartPaste", [
 		return isImageUrl(html) ? createImage(editor, html, pasteHtml) : false;
 	};
 
-	var pasteHtml = function (editor, html) {
-		editor.insertContent(html, {
-			merge: editor.settings.paste_merge_formats !== false,
-			paste: true
-		});
+	var insertContent = function (editor, html) {
+		var pasteHtml = function (html) {
+			editor.insertContent(html, {
+				merge: editor.settings.paste_merge_formats !== false,
+				paste: true
+			});
 
-		return true;
-	};
+			return true;
+		};
 
-	var smartInsertContent = function (editor, html) {
+		var fallback = function (editor, html) {
+			pasteHtml(html);
+		};
+
 		Tools.each([
 			linkSelection,
 			insertImage,
-			pasteHtml
+			fallback
 		], function (action) {
 			return action(editor, html, pasteHtml) !== true;
 		});
-	};
-
-	var insertContent = function (editor, html) {
-		if (editor.settings.smart_paste === false) {
-			pasteHtml(editor, html);
-		} else {
-			smartInsertContent(editor, html);
-		}
 	};
 
 	return {
@@ -1764,15 +1760,6 @@ define("tinymce/pasteplugin/Plugin", [
 			}
 
 			editor.focus();
-		}
-
-		// draw back if power version is requested and registered
-		if (/(^|[ ,])powerpaste([, ]|$)/.test(settings.plugins) && PluginManager.get('powerpaste')) {
-			/*eslint no-console:0 */
-			if (typeof console !== "undefined" && console.log) {
-				console.log("PowerPaste is incompatible with Paste plugin! Remove 'paste' from the 'plugins' option.");
-			}
-			return;
 		}
 
 		self.clipboard = clipboard = new Clipboard(editor);
