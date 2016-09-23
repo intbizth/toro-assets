@@ -21854,6 +21854,253 @@ require.alias("switchery/switchery.js", "switchery/index.js");
     }
 }(jQuery);
 
+$(document).ready(function () {
+    var field_width = 350, field_height = 520;
+
+    var playerData = [
+        {"name":"","x":50,"y":92},
+        {"name":"","x":16,"y":71},
+        {"name":"","x":36,"y":74},
+        {"name":"","x":63,"y":74},
+        {"name":"","x":84,"y":71},
+        {"name":"","x":17,"y":43},
+        {"name":"","x":35,"y":50},
+        {"name":"","x":65,"y":50},
+        {"name":"","x":84,"y":43},
+        {"name":"","x":35,"y":23},
+        {"name":"","x":65,"y":23}
+    ];
+    var playerPos = [
+        {left:175, top:480},
+        {left:46, top:344},
+        {left:116, top:372},
+        {left:243, top:372},
+        {left:296, top:344},
+        {left:40, top:240},
+        {left:110, top:260},
+        {left:240, top:260},
+        {left:300, top:240},
+        {left:130, top:120},
+        {left:220, top:120}
+    ];
+
+    var playerHistory = {'undo': [], 'redo': []};
+
+    function applyPos() {
+        for(var i=0;i<11;i++) {
+            $('#home'+i).css({'left':playerData[i].x+'%','top':playerData[i].y+'%'});
+            $('#home'+i+' .player__name').text(playerData[i].name);
+        }
+    }
+
+    $('.player').on('mousedown', function(e) {
+        var $this = $(this),
+            $slot = $this.data('slot'),
+            $window = $(window),
+            mouseX = e.pageX,
+            mouseY = e.pageY,
+            width = $this.outerWidth(),
+            height = $this.outerHeight(),
+            fieldBoundLeft = $this.parent().offset().left,
+            fieldBoundRight = $this.parent().outerWidth() + fieldBoundLeft - width,
+            fieldBoundTop = $this.parent().offset().top,
+            fieldBoundBottom = $this.parent().outerHeight() + fieldBoundTop - height,
+            elemX = $this.offset().left + width - mouseX,
+            elemY = $this.offset().top + height - mouseY;
+
+        $this.css({ border: '1px dashed red'});
+        $('.player').css({ transition: 'none' });
+        playerHistory['redo'] = []; //clear redo
+        historyRecord();
+
+        e.preventDefault();
+        $window.on('mousemove.drag', function(e2) {
+            //--check dragging limit--//
+            if ($slot==0) {
+                return;
+            }
+            //calculate new XY
+            newX = e2.pageX + elemX - width;
+            newY =  e2.pageY + elemY - height;
+
+            if (newX < fieldBoundLeft)
+                newX = fieldBoundLeft;
+            if (newX > fieldBoundRight)
+                newX = fieldBoundRight;
+            if (newY < fieldBoundTop)
+                newY = fieldBoundTop;
+            if (newY > fieldBoundBottom)
+                newY = fieldBoundBottom;
+            //---End check limit dragging---//
+
+            $this.offset({
+                left: newX, top: newY
+            });
+
+            //save position
+            playerPos[$slot].left = parseInt($this.css('left'));
+            playerPos[$slot].top = parseInt($this.css('top'));
+            playerData[$slot].x = Math.round(playerPos[$slot].left*100/field_width);
+            playerData[$slot].y = Math.round(playerPos[$slot].top*100/field_height);
+            $('.posVal').val(JSON.stringify(playerData)); //->to field
+    //            $('.log').text(JSON.stringify(playerData)); //Debug command
+        }).one('mouseup', function() {
+            $window.off('mousemove.drag');
+            $this.css({ border: '' });
+            $('.player').css({ transition: 'all 0.3s ease' });
+            applyPos();
+        });
+    });
+    //---------Undo Redo Function----------//
+    function historyRecord() {
+        playerHistory['undo'].push(clonePosition());
+        historyCheck();
+    }
+    function historyUndo() {
+        //move to redo
+        playerHistory['redo'].push(clonePosition());
+        playerData = playerHistory['undo'][playerHistory['undo'].length-1];
+        applyPos();
+        playerHistory['undo'].length--;
+        historyCheck();
+    }
+    function historyRedo() {
+        historyRecord();
+        playerData = playerHistory['redo'][playerHistory['redo'].length-1];
+        playerHistory['redo'].length--;
+        applyPos();
+        historyCheck();
+    }
+    function historyCheck() {
+        if (playerHistory['undo'].length < 1)
+            $('.btn-undo').prop('disabled', true);
+        else
+            $('.btn-undo').prop('disabled', false);
+        if (playerHistory['redo'].length < 1)
+            $('.btn-redo').prop('disabled', true);
+        else
+            $('.btn-redo').prop('disabled', false);
+    }
+    function clonePosition() {
+        var mem = [];
+        for (var i=0;i<playerData.length;i++) {
+            mem.push({x: playerData[i].x, y: playerData[i].y});
+        }
+        return mem;
+    }
+    //---------End Undo Redo Function-----------//
+    function loadPosition() {
+        try {
+            playerData = $.parseJSON($('.posVal').val());
+            console.log('loaded!');
+        }
+        catch(err) {
+            console.log('No data, use default');
+        }
+    }
+
+    $('.cam-l').on('click', function() {
+        $('.field').css({'transform': 'rotateX(30deg)'});
+    });
+    $('.cam-p').on('click', function() {
+        $('.field').css({'transform': ''});
+    });
+    $('.btn-undo').on('click', function(e) {
+        e.preventDefault();
+        historyUndo();
+    });
+    $('.btn-redo').on('click', function(e) {
+        e.preventDefault();
+        historyRedo();});
+
+    $('.applyVal').on('click', function() {
+        loadPosition();
+    });
+
+    //init
+    loadPosition();
+    applyPos();
+    historyCheck();
+});
+
+$(function () {
+    $(document).on('change', '.match-personal-embed .personals', function () {
+        var $el = $(this).closest('.match-personal-embed');
+        var $personal = $el.find('.personal');
+        var $shirtNumber = $el.find('.shirt-number');
+        var $avatar = $el.find('.avatar');
+        var position = $el.find('.position')[0];
+        var clubKey = $el.data('club');
+        var personals = window["personalData"][clubKey];
+
+        var id = $(this).val();
+        var player = personals['id-' + id];
+
+        if ($shirtNumber.length) {
+            $shirtNumber.val(player["no"]);
+        }
+
+        $personal.val(player["id"]);
+
+        $avatar.fadeOut('fast', function () {
+            $(this).attr('src', player["avatar"]);
+        }).fadeIn('fast');
+
+        position.selectize.setValue(player["position"]);
+    });
+
+    $(document).on('change', '#toro_match_event_embed_type', function () {
+        var $this = $(this);
+        var $relatedPlayersContainer = $this.closest('.adder-embed').find('.related-players');
+        var selectizeRelated = $relatedPlayersContainer.find('select').data('selectize');
+
+        $this.data('selectize').revertSettings.$children.each(function () {
+            if ($this.val() !== $(this).val()) {
+                return;
+            }
+
+            var labelRelated = $(this).data('require-related-player');
+
+            if (labelRelated) {
+                $relatedPlayersContainer.show();
+                $relatedPlayersContainer.find('label').html(labelRelated);
+            } else {
+                $relatedPlayersContainer.hide();
+                selectizeRelated.setValue("");
+            }
+        });
+    });
+});
+
+window['onClubSelectionChange'] = function (options, value, panel) {
+    var item = options[value],
+        $panel = $(panel),
+        logo = $.UI.avatar(),
+        img = new Image()
+    ;
+
+    if (item['item']['_links'] && item['item']['_links']['logo_100x100']) {
+        logo = item['item']['_links']['logo_100x100']['href'];
+    }
+
+    $panel.find('.club-text').text(item.text);
+
+    img.src = logo;
+    img.onload = function () {
+        $panel.find('.club-logo').fadeIn('fast', function () {
+            this.src = logo;
+        });
+    };
+};
+
+window['onHomeClubChange'] = function (value) {
+    window['onClubSelectionChange'](this.options, value, '#home-club-panel');
+};
+
+window['onAwayClubChange'] = function (value) {
+    window['onClubSelectionChange'](this.options, value, '#away-club-panel');
+};
+
 $(function () {
     $(document).on('click',  '.adder-open', function (e) {
         var $btnOpen = $(this);
@@ -23157,253 +23404,6 @@ window.SelectizeSetup = function (selector, scope) {
     });
 
 })(jQuery);
-
-$(document).ready(function () {
-    var field_width = 350, field_height = 520;
-
-    var playerData = [
-        {"name":"","x":50,"y":92},
-        {"name":"","x":16,"y":71},
-        {"name":"","x":36,"y":74},
-        {"name":"","x":63,"y":74},
-        {"name":"","x":84,"y":71},
-        {"name":"","x":17,"y":43},
-        {"name":"","x":35,"y":50},
-        {"name":"","x":65,"y":50},
-        {"name":"","x":84,"y":43},
-        {"name":"","x":35,"y":23},
-        {"name":"","x":65,"y":23}
-    ];
-    var playerPos = [
-        {left:175, top:480},
-        {left:46, top:344},
-        {left:116, top:372},
-        {left:243, top:372},
-        {left:296, top:344},
-        {left:40, top:240},
-        {left:110, top:260},
-        {left:240, top:260},
-        {left:300, top:240},
-        {left:130, top:120},
-        {left:220, top:120}
-    ];
-
-    var playerHistory = {'undo': [], 'redo': []};
-
-    function applyPos() {
-        for(var i=0;i<11;i++) {
-            $('#home'+i).css({'left':playerData[i].x+'%','top':playerData[i].y+'%'});
-            $('#home'+i+' .player__name').text(playerData[i].name);
-        }
-    }
-
-    $('.player').on('mousedown', function(e) {
-        var $this = $(this),
-            $slot = $this.data('slot'),
-            $window = $(window),
-            mouseX = e.pageX,
-            mouseY = e.pageY,
-            width = $this.outerWidth(),
-            height = $this.outerHeight(),
-            fieldBoundLeft = $this.parent().offset().left,
-            fieldBoundRight = $this.parent().outerWidth() + fieldBoundLeft - width,
-            fieldBoundTop = $this.parent().offset().top,
-            fieldBoundBottom = $this.parent().outerHeight() + fieldBoundTop - height,
-            elemX = $this.offset().left + width - mouseX,
-            elemY = $this.offset().top + height - mouseY;
-
-        $this.css({ border: '1px dashed red'});
-        $('.player').css({ transition: 'none' });
-        playerHistory['redo'] = []; //clear redo
-        historyRecord();
-
-        e.preventDefault();
-        $window.on('mousemove.drag', function(e2) {
-            //--check dragging limit--//
-            if ($slot==0) {
-                return;
-            }
-            //calculate new XY
-            newX = e2.pageX + elemX - width;
-            newY =  e2.pageY + elemY - height;
-
-            if (newX < fieldBoundLeft)
-                newX = fieldBoundLeft;
-            if (newX > fieldBoundRight)
-                newX = fieldBoundRight;
-            if (newY < fieldBoundTop)
-                newY = fieldBoundTop;
-            if (newY > fieldBoundBottom)
-                newY = fieldBoundBottom;
-            //---End check limit dragging---//
-
-            $this.offset({
-                left: newX, top: newY
-            });
-
-            //save position
-            playerPos[$slot].left = parseInt($this.css('left'));
-            playerPos[$slot].top = parseInt($this.css('top'));
-            playerData[$slot].x = Math.round(playerPos[$slot].left*100/field_width);
-            playerData[$slot].y = Math.round(playerPos[$slot].top*100/field_height);
-            $('.posVal').val(JSON.stringify(playerData)); //->to field
-    //            $('.log').text(JSON.stringify(playerData)); //Debug command
-        }).one('mouseup', function() {
-            $window.off('mousemove.drag');
-            $this.css({ border: '' });
-            $('.player').css({ transition: 'all 0.3s ease' });
-            applyPos();
-        });
-    });
-    //---------Undo Redo Function----------//
-    function historyRecord() {
-        playerHistory['undo'].push(clonePosition());
-        historyCheck();
-    }
-    function historyUndo() {
-        //move to redo
-        playerHistory['redo'].push(clonePosition());
-        playerData = playerHistory['undo'][playerHistory['undo'].length-1];
-        applyPos();
-        playerHistory['undo'].length--;
-        historyCheck();
-    }
-    function historyRedo() {
-        historyRecord();
-        playerData = playerHistory['redo'][playerHistory['redo'].length-1];
-        playerHistory['redo'].length--;
-        applyPos();
-        historyCheck();
-    }
-    function historyCheck() {
-        if (playerHistory['undo'].length < 1)
-            $('.btn-undo').prop('disabled', true);
-        else
-            $('.btn-undo').prop('disabled', false);
-        if (playerHistory['redo'].length < 1)
-            $('.btn-redo').prop('disabled', true);
-        else
-            $('.btn-redo').prop('disabled', false);
-    }
-    function clonePosition() {
-        var mem = [];
-        for (var i=0;i<playerData.length;i++) {
-            mem.push({x: playerData[i].x, y: playerData[i].y});
-        }
-        return mem;
-    }
-    //---------End Undo Redo Function-----------//
-    function loadPosition() {
-        try {
-            playerData = $.parseJSON($('.posVal').val());
-            console.log('loaded!');
-        }
-        catch(err) {
-            console.log('No data, use default');
-        }
-    }
-
-    $('.cam-l').on('click', function() {
-        $('.field').css({'transform': 'rotateX(30deg)'});
-    });
-    $('.cam-p').on('click', function() {
-        $('.field').css({'transform': ''});
-    });
-    $('.btn-undo').on('click', function(e) {
-        e.preventDefault();
-        historyUndo();
-    });
-    $('.btn-redo').on('click', function(e) {
-        e.preventDefault();
-        historyRedo();});
-
-    $('.applyVal').on('click', function() {
-        loadPosition();
-    });
-
-    //init
-    loadPosition();
-    applyPos();
-    historyCheck();
-});
-
-$(function () {
-    $(document).on('change', '.match-personal-embed .personals', function () {
-        var $el = $(this).closest('.match-personal-embed');
-        var $personal = $el.find('.personal');
-        var $shirtNumber = $el.find('.shirt-number');
-        var $avatar = $el.find('.avatar');
-        var position = $el.find('.position')[0];
-        var clubKey = $el.data('club');
-        var personals = window["personalData"][clubKey];
-
-        var id = $(this).val();
-        var player = personals['id-' + id];
-
-        if ($shirtNumber.length) {
-            $shirtNumber.val(player["no"]);
-        }
-
-        $personal.val(player["id"]);
-
-        $avatar.fadeOut('fast', function () {
-            $(this).attr('src', player["avatar"]);
-        }).fadeIn('fast');
-
-        position.selectize.setValue(player["position"]);
-    });
-
-    $(document).on('change', '#toro_match_event_embed_type', function () {
-        var $this = $(this);
-        var $relatedPlayersContainer = $this.closest('.adder-embed').find('.related-players');
-        var selectizeRelated = $relatedPlayersContainer.find('select').data('selectize');
-
-        $this.data('selectize').revertSettings.$children.each(function () {
-            if ($this.val() !== $(this).val()) {
-                return;
-            }
-
-            var labelRelated = $(this).data('require-related-player');
-
-            if (labelRelated) {
-                $relatedPlayersContainer.show();
-                $relatedPlayersContainer.find('label').html(labelRelated);
-            } else {
-                $relatedPlayersContainer.hide();
-                selectizeRelated.setValue("");
-            }
-        });
-    });
-});
-
-window['onClubSelectionChange'] = function (options, value, panel) {
-    var item = options[value],
-        $panel = $(panel),
-        logo = $.UI.avatar(),
-        img = new Image()
-    ;
-
-    if (item['item']['_links'] && item['item']['_links']['logo_100x100']) {
-        logo = item['item']['_links']['logo_100x100']['href'];
-    }
-
-    $panel.find('.club-text').text(item.text);
-
-    img.src = logo;
-    img.onload = function () {
-        $panel.find('.club-logo').fadeIn('fast', function () {
-            this.src = logo;
-        });
-    };
-};
-
-window['onHomeClubChange'] = function (value) {
-    window['onClubSelectionChange'](this.options, value, '#home-club-panel');
-};
-
-window['onAwayClubChange'] = function (value) {
-    window['onClubSelectionChange'](this.options, value, '#away-club-panel');
-};
 
 $(function () {
     Dropzone.autoDiscover = false;
