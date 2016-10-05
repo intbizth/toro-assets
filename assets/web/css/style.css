@@ -6564,10 +6564,10 @@ input[type="date"].form-control {
   padding-bottom: 3rem;
   background: #eceeef;
   color: #607D8B;
-  max-height: 550px;
+  max-height: 350px;
   margin-bottom: 2rem; }
   .carousel__index img {
-    width: 100%; }
+    height: 250px; }
   .carousel__index h3 {
     font-size: 1.8rem;
     line-height: 3.5rem; }
