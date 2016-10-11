@@ -5,6 +5,7 @@
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
  */
 /*! normalize.css v4.0.0 | MIT License | github.com/necolas/normalize.css */
+@import 'https://fonts.googleapis.com/css?family=Kanit';
 html {
   font-family: sans-serif;
   -ms-text-size-adjust: 100%;
@@ -4781,7 +4782,8 @@ img {
   height: auto; }
 
 body {
-  word-wrap: break-word; }
+  word-wrap: break-word;
+  font-family: "Kanit", sans-serif; }
 
 .icon-text {
   margin: 0 0.5rem; }
@@ -5057,7 +5059,6 @@ button {
 
 .logo {
   float: left;
-  padding: 9px;
   width: 16em; }
   .logo img {
     height: auto;
@@ -5408,82 +5409,91 @@ button {
   display: inline-block;
   content: " "; }
 
-.formation-img {
-  padding: 10px 10px; }
+.toro-title {
+  color: #133960;
+  font-family: "Kanit", sans-serif;
+  padding: 30px 50px 0; }
 
-.line-ups__left {
-  padding-right: 0; }
-  .line-ups__left hr {
-    margin-top: 5px;
-    margin-bottom: 10px; }
-  .line-ups__left--title {
-    padding-left: 5px;
-    font-weight: bold; }
-  .line-ups__left--text {
-    padding-right: 5px;
-    padding-left: 0; }
+.toro-list {
+  margin-top: 4px;
+  padding: 0;
+  list-style: none;
+  color: #133960;
+  font-family: "Kanit", sans-serif;
+  clear: both; }
+  .toro-list > :first-child {
+    border: solid;
+    border-left: none;
+    border-left: none;
+    border-right: none;
+    border-color: #EEE; }
+  .toro-list :hover {
+    background-color: #f9f9f9; }
+  .toro-list li {
+    border: solid;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    border-color: #EEE;
+    padding: 10px 0; }
+    .toro-list li .numberic {
+      float: left;
+      width: 15%;
+      text-align: right;
+      font-size: 40px;
+      font-weight: bold;
+      margin-right: 5%;
+      font-style: italic;
+      white-space: nowrap; }
+    .toro-list li h3.name {
+      margin-bottom: 0; }
+    .toro-list li .description {
+      font-size: 20px;
+      color: #808285; }
 
-.line-ups__right {
-  padding-left: 0; }
-  .line-ups__right hr {
-    margin-top: 5px;
-    margin-bottom: 10px; }
-  .line-ups__right--title {
-    padding-left: 5px;
-    font-weight: bold; }
-  .line-ups__right--text {
-    padding-right: 0;
-    padding-left: 5px; }
+.toro-group {
+  font-family: "Kanit", sans-serif; }
+  .toro-group .btn {
+    border-radius: .45rem;
+    font-size: 1.5rem !important;
+    border-width: 2px;
+    border-color: #264884;
+    background-color: white;
+    padding: 20px;
+    color: #264884; }
+    .toro-group .btn.active {
+      color: white;
+      background-color: #264884; }
+    .toro-group .btn.focus {
+      outline: none; }
 
-.tab {
-  width: 100%; }
-
-.nav-pills {
-  text-align: center; }
-
-.nav-item {
-  width: 50%; }
-
-.nav-pills .nav-item + .nav-item {
-  margin-left: 0; }
-
-.nav-pills .nav-link {
-  border-radius: 0; }
-
-.club-personal-tab {
-  margin-top: 20px; }
-
-.club-personal-tab .nav-pills .nav-link.active {
-  color: #ffffff;
-  cursor: default;
-  background-color: #264884;
-  min-height: 64px; }
-
-.club-personal-tab .nav-pills .nav-link {
-  color: #fffbf1;
-  cursor: default;
-  background-color: #133960;
-  min-height: 64px; }
-
-.share-box {
-  width: 100%;
-  height: 64px;
-  display: block;
-  padding-top: 10px;
-  color: #ffffff;
-  background-color: #264884; }
-  .share-box__inner-box {
-    width: 150px;
-    height: 44px;
-    padding-top: 5px;
-    margin: 0 auto;
-    border: 2px solid #ffffff; }
-    .share-box__inner-box--modify {
-      margin-right: 10px;
-      vertical-align: sub; }
-
-.nopadding {
-  padding: 0 0; }
+.toro-switch {
+  font-family: "Kanit", sans-serif;
+  transition: all 0.3s ease; }
+  .toro-switch > li:first-child:not(:last-child) > a {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0; }
+  .toro-switch > li:last-child:not(:first-child) > a {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0; }
+  .toro-switch > li
+> a {
+    width: 100%; }
+  .toro-switch .btn {
+    border-radius: 0;
+    font-size: 1.5rem !important;
+    border-width: 2px;
+    border-color: #264884;
+    background-color: white;
+    padding: 10px;
+    color: #264884; }
+    .toro-switch .btn.active {
+      color: white;
+      background-color: #264884; }
+    .toro-switch .btn.focus {
+      outline: none; }
+  .toro-switch .nav-item {
+    margin: 0 !important; }
 
 #cd-timeline {
   position: relative; }
@@ -6005,6 +6015,16 @@ button.btn-filter {
   font-weight: bold;
   color: #264884; }
 
+.stats-element {
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem; }
+  .stats-element__label {
+    padding-left: 0.3rem;
+    padding-right: 0.3rem;
+    background-color: #216cb6;
+    color: white;
+    border-radius: 0.5rem; }
+
 .standing__table tr {
   color: #133960;
   font-weight: bold; }
@@ -6062,10 +6082,12 @@ button.btn-filter {
     left: calc(100% - 30px);
     position: relative;
     color: #8D8D8D; }
-  .ratio-bar--left {
+  .ratio-bar__left {
     padding-left: 0.5rem; }
-  .ratio-bar--right {
+  .ratio-bar__right {
     padding-right: 0.5rem; }
+    .ratio-bar__right--small {
+      left: -10px; }
 
 .ratio-row {
   margin-bottom: 0.5rem; }

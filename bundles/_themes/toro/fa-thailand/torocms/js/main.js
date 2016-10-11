@@ -1,1 +1,1 @@
-../../../../../../../src/Toro/Bundle/CmsBundle/Resources/public/js/main.js
+/Users/intbizth/PhpstormProjects/toro-platform/src/Toro/Bundle/CmsBundle/Resources/public/js/main.js
