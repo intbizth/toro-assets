@@ -1,0 +1,100 @@
+@charset "UTF-8";
+
+@font-face {
+  font-family: "toroawesome";
+  src:url("fonts/toroawesome.eot");
+  src:url("fonts/toroawesome.eot?#iefix") format("embedded-opentype"),
+    url("fonts/toroawesome.woff") format("woff"),
+    url("fonts/toroawesome.ttf") format("truetype"),
+    url("fonts/toroawesome.svg#toroawesome") format("svg");
+  font-weight: normal;
+  font-style: normal;
+
+}
+
+[data-icon]:before {
+  font-family: "toroawesome" !important;
+  content: attr(data-icon);
+  font-style: normal !important;
+  font-weight: normal !important;
+  font-variant: normal !important;
+  text-transform: none !important;
+  speak: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+[class^="toro-"]:before,
+[class*=" toro-"]:before {
+  font-family: "toroawesome" !important;
+  font-style: normal !important;
+  font-weight: normal !important;
+  font-variant: normal !important;
+  text-transform: none !important;
+  speak: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.toro-bell:before {
+  content: "\61";
+}
+.toro-cancel:before {
+  content: "\62";
+}
+.toro-cd:before {
+  content: "\63";
+}
+.toro-arrows-ccw:before {
+  content: "\64";
+}
+.toro-docs:before {
+  content: "\65";
+}
+.toro-calendar:before {
+  content: "\66";
+}
+.toro-card:before {
+  content: "\67";
+}
+.toro-card-timeline:before {
+  content: "\68";
+}
+.toro-ex:before {
+  content: "\69";
+}
+.toro-eye:before {
+  content: "\6b";
+}
+.toro-ft:before {
+  content: "\6c";
+}
+.toro-goal:before {
+  content: "\6d";
+}
+.toro-goal-o:before {
+  content: "\6e";
+}
+.toro-ht:before {
+  content: "\6f";
+}
+.toro-og:before {
+  content: "\70";
+}
+.toro-og-o:before {
+  content: "\71";
+}
+.toro-substitution:before {
+  content: "\72";
+}
+.toro-substitution-o:before {
+  content: "\73";
+}
+.toro-watch:before {
+  content: "\74";
+}
+.toro-watch-o:before {
+  content: "\75";
+}
