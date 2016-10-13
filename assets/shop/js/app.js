@@ -467,6 +467,23 @@ if(n.debug("Changing setting",t,o),e.isPlainObject(t))e.extend(!0,f,t);else{if(o
 (function ($) {
     'use strict';
 
+    $('table thead th.sortable').on('click', function () {
+        window.location = $(this).find('a').attr('href');
+    })
+}) (jQuery);
+
+/*
+ * This file is part of the Sylius package.
+ *
+ * (c) Paweł Jędrzejewski
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
+(function ($) {
+    'use strict';
+
     function addAttributesNumber(number) {
         var currentIndex = parseInt(getNextIndex());
         $('#attributesContainer').attr('data-count', currentIndex+number);

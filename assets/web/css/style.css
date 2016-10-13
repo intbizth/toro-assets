@@ -6307,6 +6307,11 @@ a {
   color: #F7941E;
   margin-bottom: 1rem; }
 
+.page-subheader {
+  font-size: 1.2rem !important;
+  color: #607D8B;
+  margin-top: .2rem; }
+
 .paginate .col-md-12 {
   margin: 0 auto;
   text-align: center; }

@@ -1332,19 +1332,45 @@ $(document).ready(function () {
     $('.zoom').magnify();
 });
 
-$(function () {
-    $(document).on('click', '.quantity-box--down', function () {
-        var $input = $(this).closest('.quantity-box').find('input');
-        var qty = parseInt($input.val()) - 1;
-        $input.val(qty ? qty : 1);
-        $input.trigger('change');
-    });
+$(document).on('keydown', '.input-number-only', function (e) {
+    var key = e.charCode || e.keyCode || 0;
+    // allow backspace, tab, delete, enter, arrows, numbers and keypad numbers ONLY
+    // home, end, period, and numpad decimal
+    return (
+        key == 8 ||
+        key == 9 ||
+        key == 13 ||
+        key == 46 ||
+        key == 110 ||
+        key == 190 ||
+        key == 189 ||
+        (key >= 35 && key <= 40) ||
+        (key >= 48 && key <= 57) ||
+        (key >= 96 && key <= 105))
+    ;
+});
 
-    $(document).on('click', '.quantity-box--up', function () {
-        var $input = $(this).closest('.quantity-box').find('input');
-        $input.val(parseInt($input.val()) + 1);
-        $input.trigger('change');
-    });
+$(document).on('click', '.quantity-box--down', function () {
+    var $input = $(this).closest('.quantity-box').find('input');
+    var qty = parseInt($input.val()) - 1;
+    $input.val(qty ? qty : 1);
+    $input.trigger('change');
+});
+
+$(document).on('click', '.quantity-box--up', function () {
+    var $input = $(this).closest('.quantity-box').find('input');
+    $input.val(parseInt($input.val()) + 1);
+    $input.trigger('change');
+});
+
+$(document).on('keyup', '.quantity-box input', function (e) {
+    var val = parseInt($(this).val());
+
+    if (1 > val || isNaN(val)) {
+        $(this).val(1);
+    }
+
+    return true;
 });
 
 $(document).ready(function() {
